@@ -17,8 +17,49 @@ public class SearchEngine {
     }
 
     public void start(){
+            chooseInputData();
+            appLoop();
+    }
+
+    private void appLoop(){
+        while (true){
+            menuPrint();
+            int input = userInput.getNumber();
+            System.out.println();
+            switch (input){
+                case 1:
+                    searchContacts();
+                    break;
+                case 2:
+                    contacts.printAll();
+                    break;
+                case 0:
+                    System.out.println("Bye!");
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("Incorrect option! Try again.");
+                    System.out.println();
+            }
+        }
+    }
+
+    private void menuPrint(){
+        System.out.println("=== Menu ===");
+        System.out.println("1. Find a person");
+        System.out.println("2. Print all people");
+        System.out.println("0. Exit");
+    }
+
+    private void chooseInputData(){
+        System.out.println("Do you want to read data from txt file? (yes/no)");
+        String input = userInput.getLine().toLowerCase();
+
+        if("yes".equals(input)){
             addContactsFromFile();
-            searchContacts();
+        } else {
+            addContactsFromTerminal();
+        }
     }
 
     private void addContactsFromTerminal(){
@@ -33,10 +74,16 @@ public class SearchEngine {
 
     private void addContactsFromFile(){
         int numberOfLines = userInput.getNumber("Enter the number of lines to read:");
-        ArrayList<String> lines = fileReader.readLinesFromFile(numberOfLines);
 
-        for (String line : lines){
-            contacts.addContactToList(new Contact(line));
+        if (numberOfLines > 40){
+            System.out.println("Unfortunately our list is smaller than 40. Please enter less number");
+            addContactsFromFile();
+        } else {
+            ArrayList<String> lines = fileReader.readLinesFromFile(numberOfLines);
+
+            for (String line : lines) {
+                contacts.addContactToList(new Contact(line));
+            }
         }
     }
 

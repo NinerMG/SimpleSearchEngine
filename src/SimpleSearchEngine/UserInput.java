@@ -28,6 +28,17 @@ public class UserInput {
         }
     }
 
+    public int getNumber(){
+        while(true){
+            String input = scanner.nextLine();
+            try {
+                return Integer.parseInt(input);
+            } catch (NumberFormatException e){
+                System.out.println("Error! Enter finite number.");
+            }
+        }
+    }
+
     public String getLine(){
         try{
             return scanner.nextLine();

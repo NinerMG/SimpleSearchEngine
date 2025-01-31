@@ -15,4 +15,8 @@ public class ContactsList {
     public void addContactToList(Contact contact){
         contactList.add(contact);
     }
+
+    public void printAll(){
+        contactList.forEach(contact -> System.out.println(contact.getLine()));
+    }
 }

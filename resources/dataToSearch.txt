@@ -33,4 +33,8 @@ Katarzyna Kowalewska katarzyna.kowalewska@example.com
 Michał Ostrowski michal.ostrowski@example.com
 Magdalena Sokołowska magdalena.sokolowska@example.com
 Piotr Maślanka piotr.maslanka@example.com
-Agnieszka Wójcik agnieszka.wojcik@example.com
+Michał Wójcik agnieszka.wojcik@example.com
+Michał Maślanka michal.ostrowski@example.com
+Magdalena Woźniak magdalena.sokolowska@example.com
+Jacek Maślanka jacek.maslanka@example.com
+Agnieszka Wodecka agnieszka.wodecka@example.com
