@@ -4,7 +4,8 @@ public class Main {
     public static void main(String[] args) {
 
 
-      new SearchEngine().start();
+        SearchEngine searchEngine = new SearchEngine();
+        searchEngine.start();
 
     }
 }
