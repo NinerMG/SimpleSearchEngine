@@ -19,4 +19,8 @@ public class ContactsList {
     public void printAll(){
         contactList.forEach(contact -> System.out.println(contact.getLine()));
     }
+
+    public String getContact(int index){
+        return contactList.get(index).getLine();
+    }
 }

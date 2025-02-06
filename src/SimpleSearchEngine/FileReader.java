@@ -9,10 +9,11 @@ import java.util.stream.Collectors;
 
 public class FileReader {
     private final String filePath = "resources/dataToSearch.txt";
+    private final String simpleDataPath = "resources/simpleData.txt";
 
     public ArrayList<String> readLinesFromFile(int numberOfLines){
         try{
-            List<String> lines = Files.lines(Path.of(filePath))
+            List<String> lines = Files.lines(Path.of(simpleDataPath))
                     .limit(numberOfLines)
                     .collect(Collectors.toList());
            return new ArrayList<>(lines);

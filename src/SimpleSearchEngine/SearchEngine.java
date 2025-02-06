@@ -2,6 +2,8 @@ package SimpleSearchEngine;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class SearchEngine {
@@ -9,11 +11,14 @@ public class SearchEngine {
     UserInput userInput;
     FileReader fileReader;
     ContactsList contacts;
+    InvertedIndexSearch invertedIndexSearch;
+    Map<String, Set<Integer>> invertedIndex;
 
     public SearchEngine(){
         userInput = new UserInput();
         fileReader = new FileReader();
         contacts = new ContactsList();
+        invertedIndexSearch = new InvertedIndexSearch();
     }
 
     public void start(){
@@ -28,7 +33,8 @@ public class SearchEngine {
             System.out.println();
             switch (input){
                 case 1:
-                    searchContacts();
+                    //searchContacts();
+                    searchContactsInvertedSearch();
                     break;
                 case 2:
                     contacts.printAll();
@@ -57,6 +63,7 @@ public class SearchEngine {
 
         if("yes".equals(input)){
             addContactsFromFile();
+
         } else {
             addContactsFromTerminal();
         }
@@ -65,11 +72,13 @@ public class SearchEngine {
     private void addContactsFromTerminal(){
         int numberOfContacts = userInput.getNumber("Enter the number of people:");
         System.out.println("Enter all people:");
-
+        ArrayList<String> linesTemp = new ArrayList<>();
         for (int i = 0; i < numberOfContacts; i++){
             String contact = userInput.getLine();
             contacts.addContactToList(new Contact(contact));
+            linesTemp.add(contact);
         }
+        invertedIndex = invertedIndexSearch.buildInvertedIndex(linesTemp);
     }
 
     private void addContactsFromFile(){
@@ -84,6 +93,7 @@ public class SearchEngine {
             for (String line : lines) {
                 contacts.addContactToList(new Contact(line));
             }
+            invertedIndex = invertedIndexSearch.buildInvertedIndex(lines);
         }
     }
 
@@ -94,6 +104,25 @@ public class SearchEngine {
             System.out.println("Enter data to search people:");
             String searchData = userInput.getLine();
             search(searchData);
+        }
+    }
+
+    private void searchContactsInvertedSearch(){
+        int searchQueries = userInput.getNumber("Enter the number of search queries:");
+
+        for(int i = 0; i < searchQueries; i++){
+            System.out.println("Enter data to search people:");
+            String searchData = userInput.getLine();
+            Set<Integer> result = invertedIndexSearch.search(searchData, invertedIndex);
+
+            if (!result.isEmpty()){
+                System.out.println(result.size() + " persons found: ");
+                for(int index : result) {
+                    System.out.println(contacts.getContact(index));
+                }
+            } else {
+                System.out.println("No matching people found.");
+            }
         }
     }
 
