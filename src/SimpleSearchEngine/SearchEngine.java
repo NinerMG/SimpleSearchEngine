@@ -108,12 +108,28 @@ public class SearchEngine {
     }
 
     private void searchContactsInvertedSearch(){
+        String strategyType = "";
+        while (true) {
+            System.out.println("Select a matching strategy: ALL, ANY, NONE");
+            strategyType = userInput.getLine().trim();
+
+
+            if (strategyType.equalsIgnoreCase("ALL") ||
+                    strategyType.equalsIgnoreCase("ANY") ||
+                    strategyType.equalsIgnoreCase("NONE")) {
+                break;
+            } else {
+                System.out.println("Invalid strategy! Please choose 'ALL', 'ANY', or 'NONE'.");
+            }
+        }
+        SearchStrategy strategy = getSearchStrategy(strategyType);
+
         int searchQueries = userInput.getNumber("Enter the number of search queries:");
 
         for(int i = 0; i < searchQueries; i++){
             System.out.println("Enter data to search people:");
             String searchData = userInput.getLine();
-            Set<Integer> result = invertedIndexSearch.search(searchData, invertedIndex);
+            Set<Integer> result = strategy.search(searchData, invertedIndex, contacts.getContactList().size());
 
             if (!result.isEmpty()){
                 System.out.println(result.size() + " persons found: ");
@@ -136,6 +152,21 @@ public class SearchEngine {
         } else {
             System.out.println("Found people: ");
             searchResult.forEach(contact -> System.out.println(contact.getLine()));
+        }
+    }
+
+    private SearchStrategy getSearchStrategy(String strategy) {
+        switch (strategy.toUpperCase()) {
+            case "ALL":
+                return new AllSearchStrategy();
+            case "ANY":
+                return new AnySearchStrategy();
+            case "NONE":
+                return new NoneSearchStrategy();
+            default:
+                System.out.println("Invalid strategy! Use ALL, ANY, or NONE.");
+                return null;
+
         }
     }
 }
